@@ -66,7 +66,6 @@ class CameraViewController: UIViewController {
             input = try AVCaptureDeviceInput(device: captureDevice)
             
         } catch _ {
-
     
         }
         
@@ -76,18 +75,23 @@ class CameraViewController: UIViewController {
             stillImageOutput!.outputSettings = [AVVideoCodecJPEG:AVVideoCodecKey]
             if captureSession.canAddOutput(stillImageOutput) {
                 captureSession.addOutput(stillImageOutput)
+                captureSession.addInput(input)
                 previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
                 previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
                 previewLayer.connection.videoOrientation = AVCaptureVideoOrientation.Portrait
                 cameraView.layer.addSublayer(previewLayer)
-                previewLayer.frame = cameraView.frame
+                cameraView.frame = self.view.frameForAlignmentRect(CGRect(origin: CGPointZero, size: cameraView.bounds.size))
+                previewLayer.frame = self.view.frameForAlignmentRect(CGRect(origin: CGPointZero, size: cameraView.bounds.size))
+
                 captureSession.startRunning()
+                //self.view.layer.addSublayer(previewLayer)
+                //self.view.sendSubviewToBack(cameraView)
             }
         }
         
         if let user = PFUser.currentUser() {
             print("current user: " + user.objectId!)
-            var query = PFQuery(className: "SnapTargets")
+            let query = PFQuery(className: "SnapTargets")
             query.includeKey("user")
             query.includeKey("snap")
             query.whereKey("user", equalTo: user)
@@ -118,6 +122,21 @@ class CameraViewController: UIViewController {
     override func viewDidDisappear(animated: Bool) {
         
         super.viewDidDisappear(animated)
+    }
+    
+    override func shouldAutorotate() -> Bool {
+        if (UIDevice.currentDevice().orientation == UIDeviceOrientation.LandscapeLeft ||
+            UIDevice.currentDevice().orientation == UIDeviceOrientation.LandscapeRight ||
+            UIDevice.currentDevice().orientation == UIDeviceOrientation.Unknown) {
+                return false
+        }
+        else {
+            return true
+        }
+    }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return [UIInterfaceOrientationMask.Portrait ,UIInterfaceOrientationMask.PortraitUpsideDown]
     }
 
     override func didReceiveMemoryWarning() {

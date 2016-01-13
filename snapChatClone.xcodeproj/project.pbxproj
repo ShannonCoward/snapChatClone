@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		046209C61C433E0C00DC2DA7 /* SnapCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046209C51C433E0C00DC2DA7 /* SnapCellTableViewCell.swift */; };
 		047E7E461C3ED94500CB25E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047E7E451C3ED94500CB25E2 /* AppDelegate.swift */; };
 		047E7E481C3ED94500CB25E2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047E7E471C3ED94500CB25E2 /* LoginViewController.swift */; };
 		047E7E4B1C3ED94500CB25E2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 047E7E491C3ED94500CB25E2 /* Main.storyboard */; };
@@ -41,6 +42,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		046209C51C433E0C00DC2DA7 /* SnapCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapCellTableViewCell.swift; sourceTree = "<group>"; };
 		047E7E421C3ED94500CB25E2 /* snapChatClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = snapChatClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		047E7E451C3ED94500CB25E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		047E7E471C3ED94500CB25E2 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				047E7E831C3F3DCA00CB25E2 /* PreviewViewController.swift */,
 				047E7E8D1C3F5E6000CB25E2 /* FriendsTableViewController.swift */,
 				047E7E8F1C4058CF00CB25E2 /* SnapListTableViewController.swift */,
+				046209C51C433E0C00DC2DA7 /* SnapCellTableViewCell.swift */,
 				047E7E851C3F473600CB25E2 /* SegueNoAnimation.swift */,
 				047E7E8B1C3F48D000CB25E2 /* DisplaySnapViewController.swift */,
 				047E7E871C3F482600CB25E2 /* Snap.swift */,
@@ -256,6 +259,7 @@
 				047E7E841C3F3DCA00CB25E2 /* PreviewViewController.swift in Sources */,
 				047E7E881C3F482600CB25E2 /* Snap.swift in Sources */,
 				047E7E901C4058CF00CB25E2 /* SnapListTableViewController.swift in Sources */,
+				046209C61C433E0C00DC2DA7 /* SnapCellTableViewCell.swift in Sources */,
 				047E7E801C3F261500CB25E2 /* AddFriendsTableViewController.swift in Sources */,
 				047E7E861C3F473600CB25E2 /* SegueNoAnimation.swift in Sources */,
 			);

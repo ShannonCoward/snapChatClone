@@ -39,7 +39,7 @@ class LoginViewController: UIViewController {
                 
                 //  attempt to register user
             
-                var user = PFUser()
+                let user = PFUser()
                 user.username = usernameField.text
                 user.password = passwordField.text
                 user.signUpInBackgroundWithBlock({ (sucess, error) -> Void in

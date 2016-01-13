@@ -46,7 +46,7 @@ class FriendsTableViewController: UITableViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         
         if let user = PFUser.currentUser() {
-            var query = PFQuery(className: "Friends")
+            let query = PFQuery(className: "Friends")
             query.includeKey("friend")
             query.whereKey("userId", equalTo: user.objectId!)
             query.findObjectsInBackgroundWithBlock({ (results, error) -> Void in
