@@ -24,12 +24,13 @@ class PreviewViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     var previewImage: UIImage?
     var picker = UIPickerView(frame: CGRectMake(0, 0, 0, 0))
     var pickerContainer = UIView(frame: CGRectMake(0, 0, 0, 0))
-    var duration = 3
+    var duration = 5
         
         
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         picker.showsSelectionIndicator = true
         picker.delegate = self
@@ -94,7 +95,7 @@ class PreviewViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let destination = segue.destinationViewController as? FriendsTableViewController {
+        if let destination = segue.destinationViewController as?    FriendsTableViewController  {
             destination.imageToUpload = previewImage!
             destination.duration = duration
             

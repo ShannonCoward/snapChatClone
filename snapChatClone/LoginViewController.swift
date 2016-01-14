@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var errorMessage: UILabel!
     @IBOutlet weak var formActionControl: UISegmentedControl!
@@ -17,6 +17,21 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var confirmPasswordField: UITextField!
     @IBOutlet weak var actionButton: UIButton!
+    
+    var formAction: formActionType = .Register
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        formAction = .Register
+        changeFormAction()
+        
+        usernameField.delegate = self
+        passwordField.delegate = self
+        confirmPasswordField.delegate = self
+        
+    }
+    
     
     @IBAction func formActionSelected(sender: UISegmentedControl) {
         formAction = sender.selectedSegmentIndex == 0 ? .Register : .Login
@@ -42,23 +57,25 @@ class LoginViewController: UIViewController {
                 let user = PFUser()
                 user.username = usernameField.text
                 user.password = passwordField.text
-                user.signUpInBackgroundWithBlock({ (sucess, error) -> Void in
-                    if error != nil {
+                user.signUpInBackgroundWithBlock { (suceeded: Bool, error: NSError?) -> Void in
+                    if let error = error {
                         
                 //  there was a problem
                     
                     print(error)
-                        if let errorString = error?.userInfo["error"] as? String {
-                            self.errorMessage.text = errorString
-                        }
+                        let errorString = error.userInfo["error"] as? String
+                        self.errorMessage.text = errorString
                         
                     } else {
                     
                 // user registered successfully
                         print("user successfully created")
                         self.performSegueWithIdentifier("LoginSuccess", sender: self)
+                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                            
+                        })
                     }
-            })
+            }
         
         }
         break
@@ -70,11 +87,12 @@ class LoginViewController: UIViewController {
                 
                 // attempt to log in user
             
-            PFUser.logInWithUsernameInBackground(usernameField.text!, password: passwordField.text!, block: { (user, error) -> Void in
+                PFUser.logInWithUsernameInBackground(usernameField.text!, password: passwordField.text!) { (user: PFUser?, error: NSError?) -> Void in
                 if user != nil {
                 
                     print("user successfully logged in")
                     self.performSegueWithIdentifier("LoginSuccess", sender: self)
+                    self.presentingViewController?.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
                 
                 } else {
                     if let errorMessage = error?.userInfo["error"] as? String {
@@ -82,7 +100,7 @@ class LoginViewController: UIViewController {
 
                     }
                 }
-            })
+            }
             
             }
             
@@ -94,15 +112,6 @@ class LoginViewController: UIViewController {
         case Register = 0, Login
     }
     
-    var formAction: formActionType = .Register
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        formAction = .Register
-        changeFormAction()
-
-    }
 
     override func viewDidAppear(animated: Bool) {
         

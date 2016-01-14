@@ -161,6 +161,7 @@ class CameraViewController: UIViewController {
             if let navigationController = segue.destinationViewController as? UINavigationController {
                 if let previewController = navigationController.topViewController as? PreviewViewController {
                         previewController.previewImage = image
+                    
                 
                 }
             
