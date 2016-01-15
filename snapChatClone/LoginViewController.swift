@@ -11,6 +11,8 @@ import Parse
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
+    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var errorMessage: UILabel!
     @IBOutlet weak var formActionControl: UISegmentedControl!
     @IBOutlet weak var usernameField: UITextField!
@@ -102,7 +104,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 }
             }
             
-            }
+         } 
             
             break
         }
@@ -143,6 +145,47 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
+    
+    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool
+    {
+        if (identifier == "gotoLogin")
+        {
+            if usernameField.text == "" || passwordField.text == ""
+            {
+                let alertView = UIAlertView(title: "Error", message: "Cannot blank", delegate: self, cancelButtonTitle: "OK")
+                alertView.show()
+                return false
+            }
+            else if usernameField.text != "" && passwordField.text != ""
+                
+            {
+                activityIndicator.startAnimating()
+                PFUser.logInWithUsernameInBackground(txtUsername.text, password: txtPassword.text, block: { (user:PFUser?, error:NSError?) -> Void in
+                    if(error == nil)
+                    {
+                        self.activityIndicator.stopAnimating()
+                        self.performSegueWithIdentifier("gotoLogin", sender: self)
+                    }
+                    else
+                    {
+                        self.activityIndicator.stopAnimating()
+                        var errorCode = error?.code
+                        switch errorCode!
+                        {
+                        case 101:
+                            var alertView = UIAlertView(title: "Incorrect Username or Password", message: "Try Again!", delegate: self, cancelButtonTitle: "OK")
+                            alertView.show()
+                            break
+                        default:
+                            break
+                        }
+                    }
+                })
+                return true
+            }
+        }
         return true
     }
     
