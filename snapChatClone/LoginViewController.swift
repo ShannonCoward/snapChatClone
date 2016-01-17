@@ -46,11 +46,44 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         switch formAction {
         case .Register:
             if usernameField.text == "" || passwordField.text == "" || confirmPasswordField.text == "" {
-                errorMessage.text = "All fields must be filled in"
+                
+                let alertController = UIAlertController(title: "OOPS", message: "All Fields Must Be Filled", preferredStyle: .Alert)
+                
+                let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (ACTION) in
+                
+                }
+                alertController.addAction(cancelAction)
+                
+                let OKAction = UIAlertAction(title: "OK", style: .Default) { (ACTION) in
+                
+                }
+                alertController.addAction(OKAction)
+                
+                self.presentViewController(alertController, animated: true) {
+                }
+                
+                
+               // errorMessage.text = "All fields must be filled in"
                 return
             
             } else if passwordField.text != confirmPasswordField.text {
                 errorMessage.text = "passwords must match"
+                
+                let alertController = UIAlertController(title: "OOPS", message: "Passwords Must Match", preferredStyle: .Alert)
+                
+                let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (ACTION) in
+                    
+                }
+                alertController.addAction(cancelAction)
+                
+                let OKAction = UIAlertAction(title: "OK", style: .Default) { (ACTION) in
+                    
+                }
+                alertController.addAction(OKAction)
+                
+                self.presentViewController(alertController, animated: true) {
+                }
+                
                 
             } else {
                 
@@ -147,47 +180,77 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
-    
-    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool
-    {
-        if (identifier == "gotoLogin")
-        {
-            if usernameField.text == "" || passwordField.text == ""
-            {
-                let alertView = UIAlertView(title: "Error", message: "Cannot blank", delegate: self, cancelButtonTitle: "OK")
-                alertView.show()
-                return false
-            }
-            else if usernameField.text != "" && passwordField.text != ""
-                
-            {
-                activityIndicator.startAnimating()
-                PFUser.logInWithUsernameInBackground(txtUsername.text, password: txtPassword.text, block: { (user:PFUser?, error:NSError?) -> Void in
-                    if(error == nil)
-                    {
-                        self.activityIndicator.stopAnimating()
-                        self.performSegueWithIdentifier("gotoLogin", sender: self)
-                    }
-                    else
-                    {
-                        self.activityIndicator.stopAnimating()
-                        var errorCode = error?.code
-                        switch errorCode!
-                        {
-                        case 101:
-                            var alertView = UIAlertView(title: "Incorrect Username or Password", message: "Try Again!", delegate: self, cancelButtonTitle: "OK")
-                            alertView.show()
-                            break
-                        default:
-                            break
-                        }
-                    }
-                })
-                return true
-            }
-        }
-        return true
-    }
-    
 }
+    
+//    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool
+//    {
+//        if (identifier == "Success")
+//        {
+//            if usernameField.text == "" || passwordField.text == ""
+//            {
+//                let alertController = UIAlertController(title: "Error", message: "Cannot blank", preferredStyle: .Alert)
+//                
+//                let cancelAction = UIAlertAction(title: "cancel", style: .Cancel) { (action) in
+//                
+//                }
+//                alertController.addAction(cancelAction)
+//                
+//                let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+//                    
+//                }
+//                alertController.addAction(OKAction)
+//                
+//                self.presentViewController(alertController, animated: true) {
+//                
+//                }
+//                
+//                return false
+//            }
+//                
+//            else if usernameField.text != "" && passwordField.text != ""
+//                
+//            {
+//                activityIndicator.startAnimating()
+//                PFUser.logInWithUsernameInBackground(usernameField.text!, password: passwordField.text!, block: { (user:PFUser?, error:NSError?) -> Void in
+//                    if(error == nil)
+//                    {
+//                        self.activityIndicator.stopAnimating()
+//                        self.performSegueWithIdentifier("Success", sender: self)
+//                    }
+//                    else
+//                    {
+//                        self.activityIndicator.stopAnimating()
+//                        let errorCode = error?.code
+//                        switch errorCode!
+//                        {
+//                        case 101:
+//                            let alertController = UIAlertController (title: "Incorrect Username or Password", message: "Try Again!", preferredStyle: .Alert)
+//                            
+//                            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
+//                                
+//                            }
+//                            alertController.addAction(cancelAction)
+//                            
+//                            let OKAction = UIAlertAction(title: "Try Again", style: .Default) { (action) in
+//                                
+//                            }
+//                            alertController.addAction(OKAction)
+//                            
+//                            self.presentViewController(alertController, animated: true) {
+//                                
+//                            }
+//                            
+//                            break
+//                        default:
+//                            break
+//                        }
+//                    }
+//                })
+//                return true
+//            }
+//        }
+//        return true
+//    }
+    
+
 
