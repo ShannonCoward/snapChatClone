@@ -16,6 +16,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var errorMessage: UILabel!
     @IBOutlet weak var formActionControl: UISegmentedControl!
     @IBOutlet weak var usernameField: UITextField!
+    @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var confirmPasswordField: UITextField!
     @IBOutlet weak var actionButton: UIButton!
@@ -31,6 +32,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         usernameField.delegate = self
         passwordField.delegate = self
         confirmPasswordField.delegate = self
+        emailField.delegate = self
         
     }
     
@@ -45,7 +47,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         errorMessage.text = ""
         switch formAction {
         case .Register:
-            if usernameField.text == "" || passwordField.text == "" || confirmPasswordField.text == "" {
+            if usernameField.text == "" ||
+                emailField.text == "" ||
+                passwordField.text == "" || confirmPasswordField.text == "" {
                 
                 let alertController = UIAlertController(title: "OOPS", message: "All Fields Must Be Filled", preferredStyle: .Alert)
                 
@@ -67,7 +71,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 return
             
             } else if passwordField.text != confirmPasswordField.text {
-                errorMessage.text = "passwords must match"
+                
                 
                 let alertController = UIAlertController(title: "OOPS", message: "Passwords Must Match", preferredStyle: .Alert)
                 
@@ -91,6 +95,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             
                 let user = PFUser()
                 user.username = usernameField.text
+                user.email = emailField.text
                 user.password = passwordField.text
                 user.signUpInBackgroundWithBlock { (suceeded: Bool, error: NSError?) -> Void in
                     if let error = error {
@@ -98,8 +103,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 //  there was a problem
                     
                     print(error)
-                        let errorString = error.userInfo["error"] as? String
-                        self.errorMessage.text = errorString
                         
                     } else {
                     
@@ -115,9 +118,24 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
         break
         case .Login:
-            if usernameField.text == "" || passwordField.text == "" {
-                errorMessage.text = "All fields must be filled in"
+            if usernameField.text == "" || passwordField.text == "" || emailField.text == "" {
+                
+                let alertController = UIAlertController(title: "OOPS", message: "All Fields Must Be Filled", preferredStyle: .Alert)
+                
+                let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (ACTION) in
+                    
+                }
+                alertController.addAction(cancelAction)
+                
+                let OKAction = UIAlertAction(title: "OK", style: .Default) { (ACTION) in
+                }
+                alertController.addAction(OKAction)
+                
+                self.presentViewController(alertController, animated: true) {
+                }
+                
                 return
+                
             } else {
                 
                 // attempt to log in user
@@ -126,10 +144,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 if user != nil {
                 
                     print("user successfully logged in")
-                    self.performSegueWithIdentifier("LoginSuccess", sender: self)
+                    //self.performSegueWithIdentifier("LoginSuccess", sender: self)
                     self.presentingViewController?.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
                 
                 } else {
+                    
                     if let errorMessage = error?.userInfo["error"] as? String {
                         self.errorMessage.text = errorMessage
 
@@ -148,13 +167,23 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
 
-    override func viewDidAppear(animated: Bool) {
-        
-        if let user = PFUser.currentUser() {
-            print("user has session")
-            performSegueWithIdentifier("LoginSuccess", sender: self)
-        }
-    }
+//    override func viewDidAppear(animated: Bool) {
+//        
+//        if let user = PFUser.currentUser() {
+//            print("user has session")
+//            performSegueWithIdentifier("LoginSuccess", sender: self)
+//            
+//        }
+//        
+//        print(PFUser.currentUser()?.email)
+//        
+//        if PFUser.currentUser()?.email == nil {
+//            
+//            let loginVC = storyboard?.instantiateViewControllerWithIdentifier("loginVC") as! LoginViewController
+//            
+//            self.presentViewController(loginVC, animated: false, completion: nil)
+//    }
+//}
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -177,80 +206,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     }
     
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        
+        return true
+    }
+    
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
 }
-    
-//    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool
-//    {
-//        if (identifier == "Success")
-//        {
-//            if usernameField.text == "" || passwordField.text == ""
-//            {
-//                let alertController = UIAlertController(title: "Error", message: "Cannot blank", preferredStyle: .Alert)
-//                
-//                let cancelAction = UIAlertAction(title: "cancel", style: .Cancel) { (action) in
-//                
-//                }
-//                alertController.addAction(cancelAction)
-//                
-//                let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in
-//                    
-//                }
-//                alertController.addAction(OKAction)
-//                
-//                self.presentViewController(alertController, animated: true) {
-//                
-//                }
-//                
-//                return false
-//            }
-//                
-//            else if usernameField.text != "" && passwordField.text != ""
-//                
-//            {
-//                activityIndicator.startAnimating()
-//                PFUser.logInWithUsernameInBackground(usernameField.text!, password: passwordField.text!, block: { (user:PFUser?, error:NSError?) -> Void in
-//                    if(error == nil)
-//                    {
-//                        self.activityIndicator.stopAnimating()
-//                        self.performSegueWithIdentifier("Success", sender: self)
-//                    }
-//                    else
-//                    {
-//                        self.activityIndicator.stopAnimating()
-//                        let errorCode = error?.code
-//                        switch errorCode!
-//                        {
-//                        case 101:
-//                            let alertController = UIAlertController (title: "Incorrect Username or Password", message: "Try Again!", preferredStyle: .Alert)
-//                            
-//                            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
-//                                
-//                            }
-//                            alertController.addAction(cancelAction)
-//                            
-//                            let OKAction = UIAlertAction(title: "Try Again", style: .Default) { (action) in
-//                                
-//                            }
-//                            alertController.addAction(OKAction)
-//                            
-//                            self.presentViewController(alertController, animated: true) {
-//                                
-//                            }
-//                            
-//                            break
-//                        default:
-//                            break
-//                        }
-//                    }
-//                })
-//                return true
-//            }
-//        }
-//        return true
-//    }
-    
-
-

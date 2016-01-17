@@ -7,10 +7,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Login View Controller-->
+        <!--Login-->
         <scene sceneID="Gkw-Cu-7lZ">
             <objects>
-                <viewController id="EfP-No-BPO" customClass="LoginViewController" customModule="snapChatClone" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginVC" title="Login" id="EfP-No-BPO" customClass="LoginViewController" customModule="snapChatClone" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gny-qK-3RI"/>
                         <viewControllerLayoutGuide type="bottom" id="1xh-Y3-wF7"/>
@@ -25,12 +25,12 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fD6-cp-wuo">
-                                <rect key="frame" x="114" y="222" width="162" height="30"/>
+                                <rect key="frame" x="114" y="286" width="162" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confrim Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="q5Y-mV-IKC">
-                                <rect key="frame" x="114" y="280" width="162" height="30"/>
+                                <rect key="frame" x="117" y="346" width="162" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -44,15 +44,6 @@
                                     <action selector="formActionSelected:" destination="EfP-No-BPO" eventType="valueChanged" id="wbF-E0-kql"/>
                                 </connections>
                             </segmentedControl>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kjp-te-Ieo">
-                                <rect key="frame" x="110" y="380" width="177" height="30"/>
-                                <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="LOG IN"/>
-                                <connections>
-                                    <action selector="actionButtonPressed:" destination="EfP-No-BPO" eventType="touchUpInside" id="CqS-ZP-nl1"/>
-                                    <segue destination="f08-Mr-aLX" kind="push" identifier="Success" customClass="SegueNoAnimation" customModule="snapChatClone" customModuleProvider="target" id="ngg-xI-sy2"/>
-                                </connections>
-                            </button>
                             <label hidden="YES" opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Error" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ohi-Et-ASM">
                                 <rect key="frame" x="138" y="115" width="99" height="31"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
@@ -60,9 +51,23 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="fv5-b2-oZM">
-                                <rect key="frame" x="177" y="335" width="20" height="20"/>
+                                <rect key="frame" x="245" y="126" width="20" height="20"/>
                                 <color key="color" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ma3-zn-76I">
+                                <rect key="frame" x="117" y="226" width="162" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kjp-te-Ieo">
+                                <rect key="frame" x="110" y="421" width="177" height="30"/>
+                                <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="LOG IN"/>
+                                <connections>
+                                    <action selector="actionButtonPressed:" destination="EfP-No-BPO" eventType="touchUpInside" id="CqS-ZP-nl1"/>
+                                    <segue destination="f08-Mr-aLX" kind="push" identifier="LoginSuccess" customClass="SegueNoAnimation" customModule="snapChatClone" customModuleProvider="target" id="ngg-xI-sy2"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -71,6 +76,7 @@
                         <outlet property="actionButton" destination="Kjp-te-Ieo" id="05B-tB-DHT"/>
                         <outlet property="activityIndicator" destination="fv5-b2-oZM" id="e9o-oy-O8a"/>
                         <outlet property="confirmPasswordField" destination="q5Y-mV-IKC" id="a28-ax-T2P"/>
+                        <outlet property="emailField" destination="ma3-zn-76I" id="QS9-ie-zjH"/>
                         <outlet property="errorMessage" destination="ohi-Et-ASM" id="IGc-ub-DyA"/>
                         <outlet property="formActionControl" destination="yIN-7v-7JY" id="K5g-sL-JzD"/>
                         <outlet property="passwordField" destination="fD6-cp-wuo" id="wcN-zY-CXz"/>
