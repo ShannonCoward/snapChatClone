@@ -123,6 +123,18 @@ class FriendsTableViewController: UITableViewController {
      
     }
     
+    override func viewWillAppear(animated: Bool) {
+        if (PFUser.currentUser() == nil) {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                let viewController:UIViewController = UIStoryboard(name: "mainVC", bundle: nil).instantiateViewControllerWithIdentifier("loginVC") as! UINavigationController
+                self.presentViewController(viewController, animated: true, completion: nil)
+            })
+            
+            
+        }
+    }
+    
 
     
     func displayAlertView(title:String, message: String) {

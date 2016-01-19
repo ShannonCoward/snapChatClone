@@ -26,6 +26,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if let pUserName = PFUser.currentUser()?["username"] as? String {
+            self.usernameField.text = "@" + pUserName
+        }
+        
         formAction = .Register
         changeFormAction()
         
@@ -35,6 +39,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         emailField.delegate = self
         
     }
+    
+//    override func viewWillAppear(animated: Bool) {
+//        if (PFUser.currentUser() == nil) {
+//            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+//                
+//                let viewController:UIViewController = UIStoryboard(name: "loginVC", bundle: nil).instantiateViewControllerWithIdentifier("mainVC") as! UINavigationController
+//                self.presentViewController(viewController, animated: true, completion: nil)
+//            })
+//            
+//            
+//        }
+//    }
+    
+    
     
     
     @IBAction func formActionSelected(sender: UISegmentedControl) {
@@ -90,7 +108,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 
                 
             } else {
-                
+            
+                var spinner: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRectMake(0, 0, 150, 150)) as UIActivityIndicatorView
+                spinner.startAnimating()
                 //  attempt to register user
             
                 let user = PFUser()
@@ -98,7 +118,24 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 user.email = emailField.text
                 user.password = passwordField.text
                 user.signUpInBackgroundWithBlock { (suceeded: Bool, error: NSError?) -> Void in
+                    
+                    spinner.stopAnimating()
                     if let error = error {
+                        
+                        let alertController = UIAlertController(title: "OOPS", message: "Passwords Must Match", preferredStyle: .Alert)
+                        
+                        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (ACTION) in
+                            
+                        }
+                        alertController.addAction(cancelAction)
+                        
+                        let OKAction = UIAlertAction(title: "OK", style: .Default) { (ACTION) in
+                            
+                        }
+                        alertController.addAction(OKAction)
+                        
+                        self.presentViewController(alertController, animated: true) {
+                        }
                         
                 //  there was a problem
                     
@@ -138,10 +175,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 
             } else {
                 
+                var spinner: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRectMake(0, 0, 150, 150))
+                spinner.startAnimating()
+                
                 // attempt to log in user
+                let username = self.usernameField.text
+                let password = self.passwordField.text
             
-                PFUser.logInWithUsernameInBackground(usernameField.text!, password: passwordField.text!) { (user: PFUser?, error: NSError?) -> Void in
-                if user != nil {
+                PFUser.logInWithUsernameInBackground(username!, password: password!) { (user: PFUser?, error: NSError?) -> Void in
+                    
+                    spinner.stopAnimating()
+                if ((user) != nil) {
                 
                     print("user successfully logged in")
                     //self.performSegueWithIdentifier("LoginSuccess", sender: self)
@@ -149,8 +193,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 
                 } else {
                     
-                    if let errorMessage = error?.userInfo["error"] as? String {
-                        self.errorMessage.text = errorMessage
+                    let alertController = UIAlertController(title: "OOPS", message: "Passwords Must Match", preferredStyle: .Alert)
+                    
+                    let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (ACTION) in
+                        
+                    }
+                    alertController.addAction(cancelAction)
+                    
+                    let OKAction = UIAlertAction(title: "OK", style: .Default) { (ACTION) in
+                        
+                    }
+                    alertController.addAction(OKAction)
+                    
+                    self.presentViewController(alertController, animated: true) {
+
 
                     }
                 }
@@ -167,23 +223,23 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
 
-//    override func viewDidAppear(animated: Bool) {
-//        
-//        if let user = PFUser.currentUser() {
-//            print("user has session")
-//            performSegueWithIdentifier("LoginSuccess", sender: self)
-//            
-//        }
-//        
-//        print(PFUser.currentUser()?.email)
-//        
-//        if PFUser.currentUser()?.email == nil {
-//            
-//            let loginVC = storyboard?.instantiateViewControllerWithIdentifier("loginVC") as! LoginViewController
-//            
-//            self.presentViewController(loginVC, animated: false, completion: nil)
-//    }
-//}
+    override func viewDidAppear(animated: Bool) {
+        
+        if let user = PFUser.currentUser() {
+            print("user has session")
+            performSegueWithIdentifier("LoginSuccess", sender: self)
+            
+        }
+        
+        print(PFUser.currentUser()?.email)
+        
+        if PFUser.currentUser()?.email == nil {
+            
+            let loginVC = storyboard?.instantiateViewControllerWithIdentifier("loginVC") as! LoginViewController
+            
+            self.presentViewController(loginVC, animated: false, completion: nil)
+    }
+}
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

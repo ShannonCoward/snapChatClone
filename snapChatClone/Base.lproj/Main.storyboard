@@ -10,7 +10,7 @@
         <!--Login-->
         <scene sceneID="Gkw-Cu-7lZ">
             <objects>
-                <viewController storyboardIdentifier="loginVC" title="Login" id="EfP-No-BPO" customClass="LoginViewController" customModule="snapChatClone" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginVC" title="Login" useStoryboardIdentifierAsRestorationIdentifier="YES" id="EfP-No-BPO" customClass="LoginViewController" customModule="snapChatClone" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gny-qK-3RI"/>
                         <viewControllerLayoutGuide type="bottom" id="1xh-Y3-wF7"/>
@@ -173,7 +173,7 @@
         <!--Friends Table View Controller-->
         <scene sceneID="h1r-J2-EWZ">
             <objects>
-                <tableViewController id="UHd-mK-GBI" customClass="FriendsTableViewController" customModule="snapChatClone" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="mainVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="UHd-mK-GBI" customClass="FriendsTableViewController" customModule="snapChatClone" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="U3y-yP-WgY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
